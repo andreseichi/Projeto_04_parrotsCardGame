@@ -63,6 +63,10 @@ img {
   cursor: pointer;
 }
 
+.card .hidden {
+  display: none;
+}
+
 /* mobile */
 @media screen and (max-width: 368px) {
   .titulo {
