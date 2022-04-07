@@ -12,6 +12,9 @@ let quantidadeJogadas = 0;
 const cardsDiv = document.querySelector('.cards');
 cardsDiv.innerHTML = '';
 
+let tempoInicial = 0;
+let tempoDecorrido = 0;
+
 // dados das cartas
 const cartasData = [
   {
@@ -77,7 +80,11 @@ function checarCarta(element) {
       if (totalCartasBaixo > 2) {
         totalCartasBaixo -= 2;
       } else {
-        alert(`Você ganhou em ${quantidadeJogadas} jogadas!`);
+        tempoFinal = Date.now();
+        const tempoDecorrido = Math.floor((tempoFinal - tempoInicial) / 1000);
+        alert(
+          `Você ganhou em ${quantidadeJogadas} jogadas e ${tempoDecorrido} segundos!`
+        );
         gameOver();
       }
     } else {
@@ -102,6 +109,8 @@ function checarCarta(element) {
 
 function gameOver() {
   const reiniciarJogo = prompt('Gostaria de jogar novamente?');
+
+  clearInterval(atualizarTempo);
 
   if (reiniciarJogo === 'sim') {
     totalCartas = 0;
@@ -153,5 +162,17 @@ function gerarCartas(cartas) {
   arrayCartasDiv.forEach((cartaDiv) => {
     document.getElementById('cards').innerHTML += cartaDiv;
   });
+
+  // inicia o tempo
+  tempoInicial = Date.now();
+  setInterval(atualizarTempo, 1000);
 }
 gerarCartas(cartasData);
+
+function atualizarTempo() {
+  const tempoFinal = Date.now();
+  const tempoDecorrido = Math.floor((tempoFinal - tempoInicial) / 1000);
+
+  const timerDiv = document.querySelector('.timer');
+  timerDiv.innerHTML = tempoDecorrido;
+}
