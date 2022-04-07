@@ -1,4 +1,5 @@
 let totalCartas = 0;
+let totalCartasBaixo = 0;
 
 let elementoClicado = '';
 
@@ -6,21 +7,7 @@ let isSelected = false;
 let cartaSelecionada = '';
 let emEspera = false;
 
-// selecionar qnts cartas
-function escolherQuantidadeCartas() {
-  totalCartas = prompt('Selecione o total de cartas');
-
-  if (totalCartas % 2 !== 0) {
-    escolherQuantidadeCartas();
-  } else {
-    if (totalCartas >= 4 && totalCartas <= 14) {
-      return;
-    } else {
-      escolherQuantidadeCartas();
-    }
-  }
-}
-escolherQuantidadeCartas();
+let quantidadeJogadas = 0;
 
 // dados das cartas
 const cartasData = [
@@ -54,6 +41,17 @@ const cartasData = [
   },
 ];
 
+// selecionar qnts cartas
+function escolherQuantidadeCartas() {
+  totalCartas = Number(prompt('Selecione o total de cartas'));
+  totalCartasBaixo = totalCartas;
+
+  if (totalCartas % 2 !== 0 || totalCartas < 4 || totalCartas > 14) {
+    escolherQuantidadeCartas();
+  }
+}
+escolherQuantidadeCartas();
+
 // randomiza a ordem dos dados das cartas
 function randomizarCartasData(cartas) {
   cartas.sort(() => Math.random() - 0.5);
@@ -66,12 +64,18 @@ function checarCarta(element) {
     return;
   }
   if (isSelected) {
+    quantidadeJogadas++;
+
     element.classList.add('clicked');
     const nameCartaSelecionada = element.attributes.name.value;
     const nameCartaAnteriorSelecionada = cartaSelecionada.attributes.name.value;
 
     if (nameCartaAnteriorSelecionada === nameCartaSelecionada) {
-      // acerto
+      if (totalCartasBaixo > 2) {
+        totalCartasBaixo -= 2;
+      } else {
+        alert(`Você ganhou em ${quantidadeJogadas} jogadas!`);
+      }
     } else {
       emEspera = true;
 
@@ -84,6 +88,7 @@ function checarCarta(element) {
 
     isSelected = false;
   } else {
+    quantidadeJogadas++;
     cartaSelecionada = element;
 
     element.classList.add('clicked');
