@@ -9,6 +9,9 @@ let emEspera = false;
 
 let quantidadeJogadas = 0;
 
+const cardsDiv = document.querySelector('.cards');
+cardsDiv.innerHTML = '';
+
 // dados das cartas
 const cartasData = [
   {
@@ -75,6 +78,7 @@ function checarCarta(element) {
         totalCartasBaixo -= 2;
       } else {
         alert(`Você ganhou em ${quantidadeJogadas} jogadas!`);
+        gameOver();
       }
     } else {
       emEspera = true;
@@ -93,6 +97,29 @@ function checarCarta(element) {
 
     element.classList.add('clicked');
     isSelected = true;
+  }
+}
+
+function gameOver() {
+  const reiniciarJogo = prompt('Gostaria de jogar novamente?');
+
+  if (reiniciarJogo === 'sim') {
+    totalCartas = 0;
+    totalCartasBaixo = 0;
+
+    elementoClicado = '';
+
+    isSelected = false;
+    cartaSelecionada = '';
+    emEspera = false;
+
+    quantidadeJogadas = 0;
+
+    cardsDiv.innerHTML = '';
+
+    escolherQuantidadeCartas();
+    randomizarCartasData(cartasData);
+    gerarCartas(cartasData);
   }
 }
 
