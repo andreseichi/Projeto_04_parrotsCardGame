@@ -2,6 +2,10 @@ let totalCartas = 0;
 
 let elementoClicado = '';
 
+let isSelected = false;
+let cartaSelecionada = '';
+let emEspera = false;
+
 // selecionar qnts cartas
 function escolherQuantidadeCartas() {
   totalCartas = prompt('Selecione o total de cartas');
@@ -57,7 +61,34 @@ function randomizarCartasData(cartas) {
 randomizarCartasData(cartasData);
 
 function checarCarta(element) {
-  console.log(element);
+  if (element.classList.contains('clicked') || emEspera) {
+    console.log('ja foi acertado mano ou tem q esperar');
+    return;
+  }
+  if (isSelected) {
+    element.classList.add('clicked');
+    const nameCartaSelecionada = element.attributes.name.value;
+    const nameCartaAnteriorSelecionada = cartaSelecionada.attributes.name.value;
+
+    if (nameCartaAnteriorSelecionada === nameCartaSelecionada) {
+      // acerto
+    } else {
+      emEspera = true;
+
+      setTimeout(() => {
+        element.classList.remove('clicked');
+        cartaSelecionada.classList.remove('clicked');
+        emEspera = false;
+      }, 1000);
+    }
+
+    isSelected = false;
+  } else {
+    cartaSelecionada = element;
+
+    element.classList.add('clicked');
+    isSelected = true;
+  }
 }
 
 function gerarCartas(cartas) {
@@ -69,10 +100,12 @@ function gerarCartas(cartas) {
       <div onclick='checarCarta(this)' class='card' name='${
         cartas[totalParesCartas - 1].id
       }'>
-        <img src='./assets/images/front.png'/>
-        <img src='./assets/images/${
-          cartas[totalParesCartas - 1].src
-        }' class='hidden'/>
+        <div class='front face'>
+          <img src='./assets/images/front.png'/>
+        </div>
+        <div class='back face'>
+          <img src='./assets/images/${cartas[totalParesCartas - 1].src}'/>
+        </div>
       </div>
     `;
 

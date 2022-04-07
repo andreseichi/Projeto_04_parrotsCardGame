@@ -54,13 +54,40 @@ img {
 }
 
 .card {
-  border: 1px solid #99cea8;
+  width: 117px;
+  height: 146px;
   border-radius: 5px;
-  background-color: #a7e9af;
-
-  padding: 21px 6px 19px 9px;
 
   cursor: pointer;
+  position: relative;
+}
+
+.face {
+  width: 100%;
+  height: 100%;
+  background-color: #a7e9af;
+  border-radius: 10px;
+  border: 1px solid #99cea8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  backface-visibility: hidden;
+  transition: all 0.5s;
+  transform-style: preserve-3d;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.card.clicked .back {
+  transform: rotateY(0deg);
+}
+
+.card.clicked .front {
+  transform: rotateY(-180deg);
 }
 
 .hidden {
