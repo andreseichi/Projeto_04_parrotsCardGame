@@ -14,6 +14,7 @@ cardsDiv.innerHTML = '';
 
 let tempoInicial = 0;
 let tempoDecorrido = 0;
+let tempoFinal = 0;
 
 // dados das cartas
 const cartasData = [
